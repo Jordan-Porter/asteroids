@@ -45,6 +45,11 @@ def main():
             if a.collides_with(player):
                 print("Game Over!")
                 sys.exit()
+            for s in shots:
+                if a.collides_with(s):
+                    a.split()
+                    s.kill()
+                    break
 
         # draw
         pygame.Surface.fill(screen, (0,0,0))
