@@ -13,6 +13,13 @@ def main():
 
     pygame.init()
 
+    # set pygame window title
+    pygame.display.set_caption("Asteroids")
+
+    # set pygame font
+    pygame.font.init()
+    gamefont = pygame.font.SysFont('Comic Sans MS', 50)
+
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
     time = pygame.time.Clock()
@@ -31,6 +38,10 @@ def main():
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
     asteroidfield = AsteroidField()
 
+    score = 0
+
+    bg = (0,0,0)
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -47,12 +58,17 @@ def main():
                 sys.exit()
             for s in shots:
                 if a.collides_with(s):
+                    score += 1
                     a.split()
                     s.kill()
                     break
 
+        # update text
+        text = gamefont.render(str(score), True, "green")
+
         # draw
-        pygame.Surface.fill(screen, (0,0,0))
+        pygame.Surface.fill(screen, bg)
+        screen.blit(text, (SCREEN_WIDTH - (5 + (20 * len(str(score)))), 5))
         for d in drawable:
             d.draw(screen)
 
